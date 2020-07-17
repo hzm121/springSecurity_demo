@@ -1,21 +1,18 @@
 package com.hzm.demo_security.utils;
 
+import com.hzm.demo_security.constant.JwtConstant;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.impl.DefaultClaims;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.Authentication;
+import org.springframework.stereotype.Component;
 
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
 import java.util.HashMap;
-
 public class JwtUtils {
-    @Value("${jwt.secret}")
-    private static String secret;
-    @Value("${jwt.expiration}")
-    private static int expiration;
 
     private static final String AUTHORITIES = "authorities";
     private static final String CREATED = "created";
@@ -33,8 +30,8 @@ public class JwtUtils {
 
         return Jwts.builder()
                 .addClaims(claims)
-                .setExpiration(TimeUtils.plus(LocalDateTime.now(), expiration, ChronoUnit.DAYS))
-                .signWith(SignatureAlgorithm.HS256, secret)
+                .setExpiration(TimeUtils.plus(LocalDateTime.now(), JwtConstant.EXPIRATION, ChronoUnit.DAYS))
+                .signWith(SignatureAlgorithm.HS256, JwtConstant.SECRET)
                 .compact();
     }
 }

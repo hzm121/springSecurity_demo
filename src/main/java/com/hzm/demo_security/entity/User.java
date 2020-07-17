@@ -10,7 +10,9 @@ import java.time.LocalDateTime;
 public class User {
     private Integer id;
     private String userName;
+    private String password;
     private Integer roleId;
+    private Integer locked;
     private LocalDateTime created;
     private LocalDateTime updated;
 }

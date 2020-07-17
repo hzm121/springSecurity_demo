@@ -4,22 +4,30 @@ import com.hzm.demo_security.dto.RbacUserdetail;
 import com.hzm.demo_security.entity.User;
 import com.hzm.demo_security.mapstruct.UserMapper;
 import com.hzm.demo_security.service.UserService;
+import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.ApplicationContextAware;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;
+import java.util.HashSet;
 
-public class JdbcUserDetailService implements UserDetailsService {
-    @Resource
-    private UserService userServiceImpl;
+@Component
+public class JdbcUserDetailService implements UserDetailsService{
     @Autowired
-    private UserMapper userMapper;
+    private UserService userService;
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        User user = userServiceImpl.getUserByName(username);
-        return userMapper.userToRabcUserDetails(user);
+        User user = userService.getUserByName(username);
+        RbacUserdetail rbacUserdetail = new RbacUserdetail(user.getUserName(),
+                user.getPassword(),new HashSet<SimpleGrantedAuthority>());
+        return rbacUserdetail;
     }
+
 }

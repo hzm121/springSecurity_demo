@@ -5,3 +5,10 @@ spring:
     user:
       name: hzm
       password: hzm
+  datasource:
+    username: root
+    password: root
+    url: jdbc:mysql://localhost:3306/security?characterEncoding=utf-8
+mybatis:
+  mapper-locations:
+    - classpath*:mapper/*.xml

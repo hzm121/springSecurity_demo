@@ -1,7 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.hzm.demo_security.mapper.UserMapper">
-    <select id="selectByName" parameterType="string">
+    <resultMap id="userMapper" type="com.hzm.demo_security.entity.User">
+        <id column="id" javaType="INT" property="id"></id>
+        <result column="user_name" jdbcType="VARCHAR" property="userName"></result>
+        <result column="password" jdbcType="VARCHAR" property="password"></result>
+        <result column="role_id" jdbcType="VARCHAR" property="roleId"></result>
+        <result column="locked" jdbcType="TINYINT" property="locked"></result>
+
+        <result column="created" jdbcType="TIMESTAMP" property="created"></result>
+        <result column="updated" jdbcType="TIMESTAMP" property="updated"></result>
+    </resultMap>
+    <select id="selectByName" parameterType="string" resultMap="userMapper">
         SELECT * FROM user WHERE user_name = #{username};
     </select>
 

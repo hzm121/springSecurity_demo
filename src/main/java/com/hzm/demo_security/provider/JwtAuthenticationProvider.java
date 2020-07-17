@@ -1,19 +1,24 @@
 package com.hzm.demo_security.provider;
 
 import com.hzm.demo_security.userDetailService.JdbcUserDetailService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+
+import javax.annotation.Resource;
 
 public class JwtAuthenticationProvider extends DaoAuthenticationProvider {
 
-
-    public JwtAuthenticationProvider() {
+    public JwtAuthenticationProvider(UserDetailsService userDetailsService) {
         super();
-        this.setUserDetailsService(new JdbcUserDetailService());
+        this.setUserDetailsService(userDetailsService);
+        this.setPasswordEncoder(new BCryptPasswordEncoder());
     }
 
     @Override
